@@ -66,7 +66,6 @@ public class TileMap {
 			if (!row_done) { // there are more tiles in the row...
 				row[i] = tiles.get(currentCoord); //add the next tile to the row.
 				currentCoord = currentCoord.add(Coord.newCoord(0, 1)); //increase the tile by one.
-				System.out.println(currentCoord);
 				if (currentCoord.y() >= width) {
 					row_done = true;
 				}

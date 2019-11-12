@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import gameLogic.MainController;
+
 
 /**
  * RunGame.java 1.0 Nov 11, 2019
@@ -26,8 +28,10 @@ public class RunGame {
 		JPanel top_panel = new JPanel();
 		top_panel.setLayout(new BorderLayout());
 		main_frame.setContentPane(top_panel);
+
 		
 		MappedTileBoard board = new MappedTileBoard(new TileMap("src/example_map.txt"), Coord.newCoord(0, 0));
+		main_frame.addKeyListener(new MainController(board));
 		top_panel.add(board, BorderLayout.CENTER);
 
 		/* Pack main frame and make visible. */
