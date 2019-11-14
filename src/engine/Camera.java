@@ -5,11 +5,6 @@
  */
 package engine;
 
-import geo.Coord;
-import geo.MappedTileBoard;
-import geo.TileMap;
-import tiles.GameTile;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -26,6 +21,12 @@ import java.util.TreeSet;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
+import engine.gameobjects.GameObject;
+import engine.gameobjects.GameTile;
+import engine.geo.Coord;
+import engine.geo.MappedTileBoard;
+import engine.geo.TileMap;
 
 /**
  * @author Alex

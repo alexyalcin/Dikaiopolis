@@ -9,8 +9,8 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
-import engine.GameObject;
-import geo.Coord;
+import engine.gameobjects.GameObject;
+import engine.geo.Coord;
 
 /**
  * @author Alex

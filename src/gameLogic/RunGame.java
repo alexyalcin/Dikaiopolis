@@ -8,7 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import engine.Camera;
-import ui.UIHandler;
+import engine.EngineCombiner;
+import engine.ui.UIHandler;
 
 
 /**

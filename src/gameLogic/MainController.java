@@ -11,15 +11,16 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import Items.PlayerCharacter;
-import Items.Sword;
-import geo.Coord;
-import geo.MappedTileBoard;
-import geo.TileMap;
-import tiles.GameTile;
+import characters.PlayerCharacter;
 import engine.Camera;
+import engine.EngineCombiner;
 import engine.Enums;
-import engine.GameObject;
+import engine.gameobjects.GameObject;
+import engine.gameobjects.GameTile;
+import engine.geo.Coord;
+import engine.geo.MappedTileBoard;
+import engine.geo.TileMap;
+import items.Sword;
 
 /**
  * @author Alex

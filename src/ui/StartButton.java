@@ -21,8 +21,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import gameLogic.EngineCombiner;
-import geo.Coord;
+import engine.EngineCombiner;
+import engine.geo.Coord;
+import engine.ui.UIElement;
 
 /**
  * @author Alex

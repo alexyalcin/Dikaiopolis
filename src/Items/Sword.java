@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2019 Alexander Yalcin. All rights reserved.
  */
-package Items;
+package items;
 
 import java.awt.Image;
 import java.io.File;
@@ -16,8 +16,9 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
-import engine.Occupies;
-import geo.Coord;
+import engine.gameobjects.Item;
+import engine.geo.Coord;
+import engine.physics.Occupies;
 
 /**
  * @author Alex

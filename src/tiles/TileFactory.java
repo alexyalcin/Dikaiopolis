@@ -5,9 +5,10 @@
  */
 package tiles;
 
-import engine.GameObject;
-import engine.Occupies;
-import geo.Coord;
+import engine.gameobjects.GameObject;
+import engine.gameobjects.GameTile;
+import engine.geo.Coord;
+import engine.physics.Occupies;
 
 /**
  * @author Alex
