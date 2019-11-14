@@ -7,6 +7,7 @@ package tiles;
 
 import java.awt.Image;
 
+import engine.GameObject;
 import engine.Occupies;
 import geo.Coord;
 import geo.MappedTileBoard;
@@ -35,7 +36,7 @@ public class SandTile extends GameTile {
 	 * @param o
 	 * @param bg
 	 */
-	public SandTile(Coord l, Occupies[] o) {
+	public SandTile(Coord l, GameObject[] o) {
 		super(l, o, getBG());
 		// TODO Auto-generated constructor stub
 	}

@@ -20,6 +20,10 @@ public class TileMap {
 	private Map<Coord, GameTile> tiles;
 	private int height, width;
 	
+	public Map<Coord, GameTile> getTiles() {
+		return tiles;
+	}
+	
 	public TileMap(String path) {
 		this(ReadMap.getTiles(path));
 	}

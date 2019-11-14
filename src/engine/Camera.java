@@ -14,8 +14,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,12 +31,7 @@ import javax.swing.Timer;
  * @author Alex
  *
  */
-public class Camera extends JPanel {
-	
-	private static final int DEFAULT_SCREEN_WIDTH = 750;
-	private static final int DEFAULT_SCREEN_HEIGHT = 450;
-	private static final int DEFAULT_HEIGHT = 9;
-	private static final int DEFAULT_WIDTH = 15;
+public class Camera {
 	private static final int BUFFER = 5;
 	
 	MappedTileBoard background; 
@@ -44,49 +41,30 @@ public class Camera extends JPanel {
 	private int width, height;
 	private int screen_width, screen_height;
 	
-	private Coord upperRight;
-	private int offsetY, offsetX;
-	
 	private Coord target_previous;
-	private static Timer shiftTimer = null;
 	
-	public Camera(String background) { 
-		this(new GameObject(Coord.newCoord(0, 0)), background);
+	public Camera(TileMap tm, int s_h, int s_w, int w, int h) { 
+		this(new GameObject(Coord.newCoord(0, 0)), tm, s_h, s_w, w, h);
 	}
 	
-	public Camera(GameObject target, String background) {
+	public Camera(GameObject target, TileMap tm, int s_h, int s_w, int w, int h) {
 		this.target = target;
 		target_previous = target.getLocation();
-		width = DEFAULT_WIDTH;
-		height = DEFAULT_HEIGHT;
-		this.background = new MappedTileBoard(new TileMap(background), 
-				target.getLocation().add(Coord.newCoord(-(width - 1) / 2, - (height - 1) / 2)), DEFAULT_WIDTH, DEFAULT_HEIGHT);
+		width = w;
+		height = h;
+		this.background = new MappedTileBoard(tm, target.getLocation().add(Coord.newCoord(-(width - 1) / 2, - (height - 1) / 2)), w, h);
 		objects = new TreeSet<GameObject>();
 		
-		screen_width = DEFAULT_SCREEN_WIDTH;
-		screen_height = DEFAULT_SCREEN_HEIGHT;
-		
-		//factors for directions.
-		
-		setPreferredSize(new Dimension(screen_width, screen_height));
-
-		offsetY = 0;
-		offsetX = 0;
-		trigger_update();
+		screen_width = s_h;
+		screen_height = s_w;
+	}
+	
+	public void setObjectsReference(Set<GameObject> objects) {
+		this.objects = objects;
 	}
 	
 	public void setTarget(GameObject target) {
 		this.target = target;
-	}
-	
-	public void addObject(GameObject o) {
-		objects.add(o);
-	}
-	
-	public void addObjects(Iterable<GameObject> o) {
-		for (GameObject object : o) {
-			objects.add(object);
-		}
 	}
 	
 	public void followTarget() {
@@ -112,13 +90,23 @@ public class Camera extends JPanel {
 		}
 	}
 	
-	@Override
-	public void paintComponent (Graphics g) {
-		// Super class paintComponent will take care of 
-		// painting the background.
+	
+	public Coord getTile(Point p) {
+		final int x_radius = (width - 1) / 2;
+		final int y_radius = (height - 1) / 2;
+		return Coord.newCoord((p.x / getTileDims()[0]) + target.getLocation().x() - x_radius, 
+				(p.y / getTileDims()[1]) + target.getLocation().y() - y_radius);
+
+	}
+	
+	
+	public Image paintToImage() {
+		Image i = new BufferedImage(screen_width, screen_height, BufferedImage.TYPE_INT_ARGB);
+		Graphics g = i.getGraphics();
 		followTarget();
 		paintBackground(g);
 		paintObjects(g);
+		return i;
 	}
 	
 	public int[] getTileDims() {
@@ -161,27 +149,6 @@ public class Camera extends JPanel {
 				}
 			}
 		}
-	}
-	
-	private void trigger_update() {		
-		repaint();
-
-		// Not sure why, but need to schedule a call
-		// to repaint for a little bit into the future
-		// as well as the one we just did above
-		// in order to make sure that we don't end up
-		// with visual artifacts due to race conditions.
-		
-		new Thread(new Runnable() {
-			public void run() {
-				try {
-					Thread.sleep(50);
-				} catch (InterruptedException e) {
-				}
-				repaint();
-			}
-		}).start();
-
 	}
 	
 	public MappedTileBoard getTileBackground() {

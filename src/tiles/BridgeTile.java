@@ -9,6 +9,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 import engine.Enums;
+import engine.GameObject;
 import engine.Occupies;
 import geo.Coord;
 import geo.MappedTileBoard;
@@ -42,7 +43,7 @@ public class BridgeTile extends GameTile{
 	 * @param o
 	 * @param bg
 	 */
-	public BridgeTile(Coord l, Occupies[] o) {
+	public BridgeTile(Coord l, GameObject[] o) {
 		super(l, o, getBG());
 		addCollider(new Enums.Direction[] {Enums.Direction.UP, Enums.Direction.DOWN});
 		// TODO Auto-generated constructor stub

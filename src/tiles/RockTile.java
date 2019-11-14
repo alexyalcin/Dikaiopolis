@@ -7,6 +7,7 @@ package tiles;
 
 import java.awt.Image;
 
+import engine.GameObject;
 import engine.Occupies;
 import geo.Coord;
 import geo.MappedTileBoard;
@@ -29,7 +30,7 @@ public class RockTile extends GameTile {
 		return bg_image;
 	}
 
-	public RockTile(Coord l, Occupies[] o) {
+	public RockTile(Coord l, GameObject[] o) {
 		super(l, o, getBG());
 		// TODO Auto-generated constructor stub
 	}

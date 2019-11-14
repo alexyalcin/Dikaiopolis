@@ -5,6 +5,7 @@
  */
 package tiles;
 
+import engine.GameObject;
 import engine.Occupies;
 import geo.Coord;
 
@@ -13,7 +14,7 @@ import geo.Coord;
  *
  */
 public class TileFactory {
-	public static GameTile createTile(Coord c, Occupies[] o, int id) {
+	public static GameTile createTile(Coord c, GameObject[] o, int id) {
 		if (id == 0) {
 			return new GrassTile(c, o);
 		} else if (id == 1) {

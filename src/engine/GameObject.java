@@ -9,6 +9,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import javax.swing.Timer;
 
@@ -62,6 +63,9 @@ public class GameObject implements Drawable, Collider{
 	
 	public void move(Enums.Direction dir, int[] unitPixels, int speed) {
 		int[] direction_fac = Enums.direction_factor.get(dir);
+		if (movementOffset[0] != 0 || movementOffset[1] != 0) {
+			return;
+		}
 		movementOffset[0] += direction_fac[0] * unitPixels[0];
 		movementOffset[1] += direction_fac[1] * unitPixels[1];
 		location = location.add(Coord.newCoord(direction_fac[0], direction_fac[1]));
@@ -74,7 +78,7 @@ public class GameObject implements Drawable, Collider{
 	
 	public void animateShift(Enums.Direction d, int speed) {
 		if (offsetTimer == null) {
-			offsetTimer = new Timer(10, new ActionListener() {
+			offsetTimer = new Timer(7, new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub

@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import engine.Camera;
+import ui.UIHandler;
 
 
 /**
@@ -22,14 +23,14 @@ import engine.Camera;
  */
 public class RunGame {
 	
-	public static Camera c; 
+	public static EngineCombiner engine;
 	static {
-		c = new Camera("src/example_map.txt");
-
+		engine = new EngineCombiner();
 			Timer gameTimer = new Timer(1000 / 60, new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					c.repaint();
+					engine.update();
+					engine.repaint();
 				}
 			});
 			gameTimer.start();
@@ -46,8 +47,8 @@ public class RunGame {
 		main_frame.setContentPane(top_panel);
 
 		
-		main_frame.addKeyListener(new MainController(c));
-		top_panel.add(c, BorderLayout.CENTER);
+		main_frame.addKeyListener(new MainController(engine));
+		top_panel.add(engine, BorderLayout.CENTER);
 
 		/* Pack main frame and make visible. */
 		

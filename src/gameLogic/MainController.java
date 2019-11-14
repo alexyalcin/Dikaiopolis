@@ -8,6 +8,8 @@ package gameLogic;
 import java.awt.event.KeyEvent;
 
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import Items.PlayerCharacter;
 import Items.Sword;
@@ -27,21 +29,24 @@ public class MainController implements KeyListener {
 	Camera camera;
 	TileMap tiles;
 	GameObject character;
+	EngineCombiner combiner;
+	
 	int[] tileDims;
 
-	public MainController(Camera c) {
-		tileDims = c.getTileDims();
-		camera = c;
+	public MainController(EngineCombiner comb) {
+		combiner = comb;
+		this.camera = combiner.getCamera();
+		tileDims = camera.getTileDims();
 		character = new PlayerCharacter();
 		character.setLocation(Coord.newCoord(5, 5));
-		c.addObject(character);
-		tiles = c.getTileBackground().getMap();
+		combiner.addObject(character);
+		tiles = camera.getTileBackground().getMap();
 		
 		GameObject sword2 = new Sword(1, 100);
 		sword2.setLocation(Coord.newCoord(11, 8));
-		c.addObject(sword2);
-		c.setTarget(character);
-		c.followTarget();
+		combiner.addObject(sword2);
+		camera.setTarget(character);
+		camera.followTarget();
 	}
 	/* (non-Javadoc)
 	 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)

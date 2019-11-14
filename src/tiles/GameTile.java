@@ -5,7 +5,11 @@
  */
 package tiles;
 
+import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -22,17 +26,22 @@ import geo.Coord;
  *
  */
 public abstract class GameTile extends GameObject implements Tile {
-	Set<Occupies> onTile;
+	Set<GameObject> onTile;
 	Image background;
+	static GameObject highlight;
 	
-	public GameTile(Coord l, Occupies[] o, Image bg) {
+	static {
+		highlight = new TileHighlight(Coord.newCoord(0, 0));
+	}
+	
+	public GameTile(Coord l, GameObject[] o, Image bg) {
 		super(l);
-		onTile = new TreeSet<Occupies>();
+		onTile = new TreeSet<GameObject>();
 		background = bg;
 		if (o == null) {
 			return;
 		}
-		for (Occupies item : o) {
+		for (GameObject item : o) {
 			onTile.add(item);
 		}
 	}
@@ -58,11 +67,11 @@ public abstract class GameTile extends GameObject implements Tile {
 		return location.y();
 	}
 	
-	public void addObject(Occupies o) {
+	public void addObject(GameObject o) {
 		onTile.add(o);
 	}
 	
-	public boolean removeObject(Occupies o) {
+	public boolean removeObject(GameObject o) {
 		if (onTile.contains(o)) {
 			onTile.remove(o);
 			return true;
@@ -70,19 +79,17 @@ public abstract class GameTile extends GameObject implements Tile {
 		return false;
 	}
 	
-	Set<Occupies> getOnTile() {
+	Set<GameObject> getOnTile() {
 		return onTile;
 	}
 	
 	public List<Image> getImages() {
 		List<Image> images = new ArrayList<Image>();
 		images.add(background);
-		for (Occupies i : getOnTile()) {
+		for (GameObject i : getOnTile()) {
 			images.add(i.getImage());
 		}
 		return images;
 	}
-	
-	
 
 }
