@@ -1,11 +1,13 @@
 /**
- * GrassTile.java 1.0 Nov 11, 2019
+ * NullTile.java 1.0 Nov 13, 2019
  *
  * Copyright (c) 2019 Alexander Yalcin. All rights reserved.
  */
 package tiles;
 
+import java.awt.Color;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 import engine.Occupies;
 import geo.Coord;
@@ -15,19 +17,17 @@ import geo.MappedTileBoard;
  * @author Alex
  *
  */
-public class GrassTile extends GameTile {
+public class NullTile extends GameTile {
 	
-	private static final String bg_loc = "assets/bg0.jpg";
-	
-	private static Image bg_image;
-	private static boolean image_imported = false;
+	private static Image bg = null;
 	
 	private static Image getBG() {
-		if (!image_imported) {
-			bg_image = MappedTileBoard.importBG(bg_loc);
-			image_imported = true;
+		if ((bg == null)) {
+			bg = new BufferedImage(50, 50, BufferedImage.TYPE_INT_RGB);
+			bg.getGraphics().setColor(Color.BLACK);
+			bg.getGraphics().drawRect(0, 0, 50, 50);
 		}
-		return bg_image;
+		return bg;
 	}
 
 	/**
@@ -35,8 +35,8 @@ public class GrassTile extends GameTile {
 	 * @param o
 	 * @param bg
 	 */
-	public GrassTile(Coord l, Occupies[] o) {
-		super(l, o, getBG());
+	public NullTile(Coord l) {
+		super(l, null, getBG());
 		// TODO Auto-generated constructor stub
 	}
 
@@ -45,7 +45,7 @@ public class GrassTile extends GameTile {
 	 */
 	@Override
 	public String getType() {
-		return "Grass";
+		return "Null";
 	}
 
 }

@@ -7,7 +7,7 @@ package tiles;
 
 import java.awt.Image;
 
-import game_assets.Occupies;
+import engine.Occupies;
 import geo.Coord;
 import geo.MappedTileBoard;
 

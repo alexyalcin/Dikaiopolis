@@ -5,7 +5,7 @@
  */
 package tiles;
 
-import game_assets.Occupies;
+import engine.Occupies;
 import geo.Coord;
 
 /**

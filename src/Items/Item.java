@@ -7,19 +7,37 @@ package Items;
 
 import java.awt.Image;
 
-import game_assets.Occupies;
+import engine.GameObject;
+import engine.Occupies;
+import geo.Coord;
 
 /**
  * @author Alex
  *
  */
-public abstract class Item implements Occupies {
+public abstract class Item extends GameObject implements Occupies {
 	
+	/**
+	 * @param c
+	 */
+	public Item() {
+		super(Coord.newCoord(-1, -1));
+		// TODO Auto-generated constructor stub
+	}
+
 	public static Item createItem(String type, int model) {
 		if (type.equals("Sword")) {
 			return new Sword(model, 100);
 		}
 		return null;
+	}
+	
+	public double getHeight() {
+		return 1;
+	}
+	
+	public double getWidth() {
+		return 1;
 	}
 
 	/* (non-Javadoc)

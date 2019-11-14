@@ -1,9 +1,13 @@
 package geo;
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
+import engine.Camera;
 import gameLogic.MainController;
 
 
@@ -19,6 +23,19 @@ import gameLogic.MainController;
  */
 public class RunGame {
 	
+	public static Camera c; 
+	static {
+		c = new Camera("src/example_map.txt");
+
+			Timer gameTimer = new Timer(1000 / 60, new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					c.repaint();
+				}
+			});
+			gameTimer.start();
+	}
+	
 	public static void main(String[] args) {
 		JFrame main_frame = new JFrame();
 		main_frame.setTitle("Dikaiopolis");
@@ -30,9 +47,8 @@ public class RunGame {
 		main_frame.setContentPane(top_panel);
 
 		
-		MappedTileBoard board = new MappedTileBoard(new TileMap("src/example_map.txt"), Coord.newCoord(0, 0));
-		main_frame.addKeyListener(new MainController(board));
-		top_panel.add(board, BorderLayout.CENTER);
+		main_frame.addKeyListener(new MainController(c));
+		top_panel.add(c, BorderLayout.CENTER);
 
 		/* Pack main frame and make visible. */
 		

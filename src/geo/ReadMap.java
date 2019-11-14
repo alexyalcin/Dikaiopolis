@@ -35,18 +35,19 @@ public class ReadMap {
 		line1_scanner.useDelimiter(" ");
 		width = line1_scanner.nextInt();
 		height = line1_scanner.nextInt();
-		GameTile[][] tiles = new GameTile[width][height];
-
-		for (int x = 0; x < width; x++) {
+		GameTile[][] tiles = new GameTile[height][width];
+		int total = 0;
+		for (int y = 0; y < height; y++) {
 			String next_line = sc.nextLine();
 			Scanner row_scanner = new Scanner(next_line);
 			row_scanner.useDelimiter(" ");
-			for (int y = 0; y < height; y++)  {
-				GameTile t = TileFactory.createTile(Coord.newCoord(y, x), null, row_scanner.nextInt());
+			for (int x = 0; x < width; x++)  {
+				total++;
+				int tile_type = row_scanner.nextInt();
+				GameTile t = TileFactory.createTile(Coord.newCoord(y, x), null, tile_type);
 				tiles[y][x] = t;
 			}
-		}
-		boolean in_items = false;
+		}		boolean in_items = false;
 		while (sc.hasNext()) {
 			String nextLine = sc.nextLine();
 			if (nextLine.contains("<Items>")) {

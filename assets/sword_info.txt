@@ -1,1 +1,2 @@
 Witcher Sword,8.4,5.4,assets/sword1.png
+Rapier,8.4,5.4,assets/sword2.png

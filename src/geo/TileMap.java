@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import tiles.GameTile;
+import tiles.NullTile;
 
 /**
  * @author Alex
@@ -33,9 +34,13 @@ public class TileMap {
 		width = tls[0].length;
 		
 		tiles = new HashMap<Coord, GameTile>();		
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
-				tiles.put(Coord.newCoord(x, y), tls[x][y]);
+		for (int x = 0; x < height; x++) {
+			for (int y = 0; y < width; y++) {
+				if (tls[x][y] == null) {
+					tiles.put(Coord.newCoord(x, y), new NullTile(Coord.newCoord(x, y)));
+				} else {
+					tiles.put(Coord.newCoord(x, y), tls[x][y]);
+				}
 			}
 		}
 	}
@@ -55,24 +60,25 @@ public class TileMap {
 	}
 
 	public GameTile getTile(int x, int y) {
-		return tiles.get(Coord.newCoord(x, y));
+		if (tiles.containsKey(Coord.newCoord(x, y))) {
+//			System.out.println(tiles.get(Coord.newCoord(x, y)));
+			return tiles.get(Coord.newCoord(x, y));
+		} else {
+			return new NullTile(Coord.newCoord(x, y));
+		}
 	}
 	
 	public GameTile[] getRow(int startX, int startY, int length) {
 		GameTile[] row = new GameTile[length]; //creates a row of tiles of the right length.
 		Coord currentCoord = Coord.newCoord(startX, startY); //starts off at the first coordinate.
-		boolean row_done = false; //there are still coordinates left in the row.
 		for (int i = 0; i < length; i++) {
-			if (!row_done) { // there are more tiles in the row...
-				row[i] = tiles.get(currentCoord); //add the next tile to the row.
-				currentCoord = currentCoord.add(Coord.newCoord(0, 1)); //increase the tile by one.
-				if (currentCoord.y() >= width) {
-					row_done = true;
-				}
-			} else {
-				row[i] = null;
-			}
+			row[i] = getTile(currentCoord.x(), currentCoord.y());
+			currentCoord = currentCoord.add(Coord.newCoord(0, 1)); //increase the tile by one.
 		}
+//		for (GameTile t : row) {
+//			System.out.println(t);
+//		}
+//		System.out.println();
 		return row;
 	}
 	
@@ -94,13 +100,21 @@ public class TileMap {
 		return column;
 	}
 	
+	public GameTile[] createEmptyRow(int rowNum, int len) {
+		GameTile[] row = new GameTile[len];
+		for (int i = 0; i < len; i++) {
+			row[i] = new NullTile(Coord.newCoord(rowNum, i));
+		}
+		return row;
+	}
+	
 	public GameTile[][] getArea(int startX, int startY, int x_len, int y_len) {
 		GameTile[][] area = new GameTile[x_len][y_len];
 		for (int x = 0; x < x_len; x++) {
 			if (startX + x < 0) { 
-				area[x] = new GameTile[x_len];
+				area[x] = createEmptyRow(startX + x, y_len);
 			} else {
-				area[x] = getRow(startX + x, startY, x_len);
+				area[x] = getRow(startX + x, startY, y_len);
 			}
 		}
 		return area;

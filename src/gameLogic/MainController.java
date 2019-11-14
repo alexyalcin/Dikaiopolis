@@ -6,19 +6,36 @@
 package gameLogic;
 
 import java.awt.event.KeyEvent;
+
 import java.awt.event.KeyListener;
 
+import Items.Sword;
+import geo.Coord;
 import geo.MappedTileBoard;
+import engine.Camera;
+import engine.GameObject;
 
 /**
  * @author Alex
  *
  */
 public class MainController implements KeyListener {
-	MappedTileBoard board;
+	Camera camera;
+	GameObject character;
+	int[] tileDims;
 
-	public MainController(MappedTileBoard b) {
-		board = b;
+	public MainController(Camera c) {
+		tileDims = c.getTileDims();
+		camera = c;
+		character = new Sword(1, 100);
+		character.setLocation(Coord.newCoord(5, 5));
+		c.addObject(character);
+		
+		GameObject sword2 = new Sword(0, 100);
+		sword2.setLocation(Coord.newCoord(8, 8));
+		c.addObject(sword2);
+		c.setTarget(character);
+		c.followTarget();
 	}
 	/* (non-Javadoc)
 	 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
@@ -27,14 +44,15 @@ public class MainController implements KeyListener {
 	public void keyTyped(KeyEvent e) {
 		char key = e.getKeyChar();
 		if (key == 'w') {
-			board.shift(MappedTileBoard.Direction.DOWN);
+			character.move(Camera.Direction.DOWN, tileDims, 3);
 		} else if (key == 's') {
-			board.shift(MappedTileBoard.Direction.UP);
+			character.move(Camera.Direction.UP, tileDims, 3);
 		} else if (key == 'a') {
-			board.shift(MappedTileBoard.Direction.RIGHT);
+			character.move(Camera.Direction.RIGHT, tileDims, 3);
 		} else if (key == 'd') {
-			board.shift(MappedTileBoard.Direction.LEFT);
+			character.move(Camera.Direction.LEFT, tileDims, 3);
 		}
+		camera.followTarget();
 	}
 
 	/* (non-Javadoc)

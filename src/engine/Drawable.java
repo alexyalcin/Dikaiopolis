@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2019 Alexander Yalcin. All rights reserved.
  */
-package game_assets;
+package engine;
 
 import java.awt.Image;
 
@@ -24,6 +24,6 @@ public interface Drawable extends Comparable<Drawable>{
 		if (other.getPriority() < this.getPriority()) {
 			return 1;
 		}
-		return 0;
+		return (1);
 	}
 }

@@ -16,7 +16,7 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
-import game_assets.Occupies;
+import engine.Occupies;
 import geo.Coord;
 
 /**
@@ -36,7 +36,7 @@ public class Sword extends Item {
 	public Sword(int model) {
 		this(model, 100);
 	}
-	
+		
 	public Sword(int model, int endurance) {
 		if (imported_swords == null) {
 			imported_swords = new HashMap<Integer, Image>();

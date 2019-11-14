@@ -13,7 +13,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import game_assets.Occupies;
+import engine.GameObject;
+import engine.Occupies;
 import geo.Coord;
 import geo.Tile;
 
@@ -21,13 +22,12 @@ import geo.Tile;
  * @author Alex
  *
  */
-public abstract class GameTile implements Tile {
-	Coord loc;
+public abstract class GameTile extends GameObject implements Tile {
 	Set<Occupies> onTile;
 	Image background;
 	
 	public GameTile(Coord l, Occupies[] o, Image bg) {
-		loc = l;
+		super(l);
 		onTile = new TreeSet<Occupies>();
 		background = bg;
 		if (o == null) {
@@ -48,7 +48,7 @@ public abstract class GameTile implements Tile {
 	 */
 	@Override
 	public int getX() {
-		return loc.x();
+		return location.x();
 	}
 
 	/* (non-Javadoc)
@@ -56,7 +56,7 @@ public abstract class GameTile implements Tile {
 	 */
 	@Override
 	public int getY() {
-		return loc.y();
+		return location.y();
 	}
 	
 	public void addObject(Occupies o) {
