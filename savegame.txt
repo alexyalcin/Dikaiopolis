@@ -1,0 +1,6 @@
+<name>Dikaiopolis</name>
+<sprite>assets/character.png
+</sprite>
+<level>
+1
+</level>

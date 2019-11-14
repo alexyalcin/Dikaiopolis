@@ -18,8 +18,10 @@ public class TileFactory {
 			return new GrassTile(c, o);
 		} else if (id == 1) {
 			return new SandTile(c, o);
-		} else if (id == 3) {
+		} else if (id == 2) {
 			return new RockTile(c, o);
+		} else if (id ==3) {
+			return new BridgeTile(c, o);
 		}
 		return null;
 	}

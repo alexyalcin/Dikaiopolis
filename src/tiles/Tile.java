@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2019 Alexander Yalcin. All rights reserved.
  */
-package geo;
+package tiles;
 
 /**
  * @author Alex

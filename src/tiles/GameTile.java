@@ -16,7 +16,6 @@ import java.util.TreeSet;
 import engine.GameObject;
 import engine.Occupies;
 import geo.Coord;
-import geo.Tile;
 
 /**
  * @author Alex

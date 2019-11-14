@@ -22,6 +22,8 @@ public abstract class Item extends GameObject implements Occupies {
 	 */
 	public Item() {
 		super(Coord.newCoord(-1, -1));
+		height = 1;
+		width = 1;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -30,14 +32,6 @@ public abstract class Item extends GameObject implements Occupies {
 			return new Sword(model, 100);
 		}
 		return null;
-	}
-	
-	public double getHeight() {
-		return 1;
-	}
-	
-	public double getWidth() {
-		return 1;
 	}
 
 	/* (non-Javadoc)

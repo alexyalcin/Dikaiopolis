@@ -9,6 +9,8 @@ package geo;
 
 import java.util.Iterator;
 
+import tiles.Tile;
+
 public interface TileBoard extends Iterable<Tile> {
 	int getTileWidth();
  

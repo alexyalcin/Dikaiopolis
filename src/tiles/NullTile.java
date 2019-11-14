@@ -9,6 +9,8 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
+import engine.Collider;
+import engine.Enums;
 import engine.Occupies;
 import geo.Coord;
 import geo.MappedTileBoard;
@@ -37,6 +39,7 @@ public class NullTile extends GameTile {
 	 */
 	public NullTile(Coord l) {
 		super(l, null, getBG());
+		this.addCollider(new Enums.Direction[] {Enums.Direction.UP, Enums.Direction.DOWN, Enums.Direction.RIGHT, Enums.Direction.LEFT});
 		// TODO Auto-generated constructor stub
 	}
 

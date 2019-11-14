@@ -3,13 +3,14 @@
  *
  * Copyright (c) 2019 Alexander Yalcin. All rights reserved.
  */
-package geo;
+package data;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import Items.Item;
+import geo.Coord;
 import tiles.GameTile;
 import tiles.TileFactory;
 

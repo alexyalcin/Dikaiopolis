@@ -1,4 +1,4 @@
-package geo;
+package gameLogic;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import engine.Camera;
-import gameLogic.MainController;
 
 
 /**

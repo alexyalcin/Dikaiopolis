@@ -8,6 +8,8 @@ package geo;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import tiles.Tile;
+
 /**
  * @author Alex
  *

@@ -37,15 +37,6 @@ public class Camera extends JPanel {
 	private static final int DEFAULT_WIDTH = 15;
 	private static final int BUFFER = 5;
 	
-	public static  enum Direction {LEFT, RIGHT, UP, DOWN};
-	public static Map<Direction, int[]> direction_factor = direction_factor = new HashMap<Direction, int[]>();
-			static {
-				direction_factor.put(Direction.UP, new int[] {0, 1});
-				direction_factor.put(Direction.DOWN, new int[] {0, -1});
-				direction_factor.put(Direction.RIGHT, new int[] {-1, 0});
-				direction_factor.put(Direction.LEFT, new int[] {1, 0});
-			}
-	
 	MappedTileBoard background; 
 	private GameObject target;
 	private Set<GameObject> objects;
@@ -106,14 +97,14 @@ public class Camera extends JPanel {
 		target_previous = target.getLocation();
 		
 		if (x_change != 0) {
-			Direction xDir = (x_change < 0) ? Direction.RIGHT : Direction.LEFT;
+			Enums.Direction xDir = (x_change < 0) ? Enums.Direction.RIGHT : Enums.Direction.LEFT;
 			while (x_change != 0) {
 				shift(xDir);
 				x_change -= (x_change) / Math.abs(x_change);
 			}
 		}
 		if (y_change != 0) {
-			Direction yDir = (y_change < 0) ? Direction.DOWN : Direction.UP;
+			Enums.Direction yDir = (y_change < 0) ? Enums.Direction.DOWN : Enums.Direction.UP;
 			while (y_change != 0) {
 				shift(yDir);
 				y_change-= (y_change) / Math.abs(y_change);
@@ -193,7 +184,11 @@ public class Camera extends JPanel {
 
 	}
 	
-	public void shift(Direction d) {
+	public MappedTileBoard getTileBackground() {
+		return background;
+	}
+	
+	public void shift(Enums.Direction d) {
 		background.shift(d);
 	}
 	

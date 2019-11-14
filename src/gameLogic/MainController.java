@@ -9,10 +9,14 @@ import java.awt.event.KeyEvent;
 
 import java.awt.event.KeyListener;
 
+import Items.PlayerCharacter;
 import Items.Sword;
 import geo.Coord;
 import geo.MappedTileBoard;
+import geo.TileMap;
+import tiles.GameTile;
 import engine.Camera;
+import engine.Enums;
 import engine.GameObject;
 
 /**
@@ -21,18 +25,20 @@ import engine.GameObject;
  */
 public class MainController implements KeyListener {
 	Camera camera;
+	TileMap tiles;
 	GameObject character;
 	int[] tileDims;
 
 	public MainController(Camera c) {
 		tileDims = c.getTileDims();
 		camera = c;
-		character = new Sword(1, 100);
+		character = new PlayerCharacter();
 		character.setLocation(Coord.newCoord(5, 5));
 		c.addObject(character);
+		tiles = c.getTileBackground().getMap();
 		
-		GameObject sword2 = new Sword(0, 100);
-		sword2.setLocation(Coord.newCoord(8, 8));
+		GameObject sword2 = new Sword(1, 100);
+		sword2.setLocation(Coord.newCoord(11, 8));
 		c.addObject(sword2);
 		c.setTarget(character);
 		c.followTarget();
@@ -43,16 +49,26 @@ public class MainController implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		char key = e.getKeyChar();
+		Enums.Direction d = null;
 		if (key == 'w') {
-			character.move(Camera.Direction.DOWN, tileDims, 3);
+			d = Enums.Direction.DOWN;
 		} else if (key == 's') {
-			character.move(Camera.Direction.UP, tileDims, 3);
+			d = Enums.Direction.UP;
 		} else if (key == 'a') {
-			character.move(Camera.Direction.RIGHT, tileDims, 3);
+			d = Enums.Direction.RIGHT;
 		} else if (key == 'd') {
-			character.move(Camera.Direction.LEFT, tileDims, 3);
+			d = Enums.Direction.LEFT;
 		}
-		camera.followTarget();
+		
+		if (d != null) {
+			GameTile t1 = (tiles.getTile(character.getLocation().x() + Enums.direction_factor.get(d)[0],
+					character.getLocation().y() + Enums.direction_factor.get(d)[1]));
+			GameTile t = (tiles.getTile(character.getLocation().x(), character.getLocation().y()));
+			if (!character.canMove(t1, d, 1) || !(character.canMove(t, d, 0))) {
+				return;
+			}
+			character.move(d, tileDims, 3);
+		}
 	}
 
 	/* (non-Javadoc)

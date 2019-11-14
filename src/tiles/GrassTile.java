@@ -24,7 +24,7 @@ public class GrassTile extends GameTile {
 	
 	private static Image getBG() {
 		if (!image_imported) {
-			bg_image = MappedTileBoard.importBG(bg_loc);
+			bg_image = MappedTileBoard.importImage(bg_loc);
 			image_imported = true;
 		}
 		return bg_image;

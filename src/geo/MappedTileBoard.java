@@ -23,11 +23,13 @@ import java.util.Map;
 import javax.swing.Timer;
 
 import engine.Camera;
+import engine.Enums;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import tiles.GameTile;
+import tiles.Tile;
 
 /**
  * @author Alex
@@ -75,9 +77,13 @@ public class MappedTileBoard implements TileBoard{
 		return screen_height / height;
 	}
 
-	public void shift(Camera.Direction d) {
-		upperRight = upperRight.add(Coord.newCoord(Camera.direction_factor.get(d)[0], Camera.direction_factor.get(d)[1]));
+	public void shift(Enums.Direction d) {
+		upperRight = upperRight.add(Coord.newCoord(Enums.direction_factor.get(d)[0], Enums.direction_factor.get(d)[1]));
 		current_spots = tileMap.getArea(upperRight.x() - BUFFER, upperRight.y() - BUFFER, width + BUFFER * 2, height + BUFFER * 2);
+	}
+	
+	public TileMap getMap() {
+		return tileMap;
 	}
 	
 	public GameTile[][] getCurrentSpots() {
@@ -90,7 +96,7 @@ public class MappedTileBoard implements TileBoard{
 		return current_spots[x][y];
 	}	
 
-	public static Image importBG(String loc) {
+	public static Image importImage(String loc) {
 		File file = new File(loc);
 		Image bufferedImage = null;
 		try {

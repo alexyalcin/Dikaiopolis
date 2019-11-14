@@ -15,7 +15,8 @@ import java.util.List;
 public class Coord{
 	private static List<Coord> created = null;
 	
-	private int x, y;
+	protected int x, y;
+	
 	public static Coord newCoord(int _x, int _y) {
 		if (created == null) {
 			created = new ArrayList<Coord>();
@@ -30,7 +31,7 @@ public class Coord{
 		return c;
 	}
 	
-	private Coord(int _x, int _y) {
+	public Coord(int _x, int _y) {
 		this.x = _x;
 		this.y = _y;
 	}

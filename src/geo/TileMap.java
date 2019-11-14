@@ -8,6 +8,7 @@ package geo;
 import java.util.HashMap;
 import java.util.Map;
 
+import data.ReadMap;
 import tiles.GameTile;
 import tiles.NullTile;
 

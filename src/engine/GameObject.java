@@ -12,22 +12,44 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.Timer;
 
-import engine.Camera.Direction;
+import engine.Enums.Direction;
 import geo.Coord;
+import tiles.CollisionTile;
 
 /**
  * @author Alex
  *
  */
-public class GameObject implements Drawable{
+public class GameObject implements Drawable, Collider{
 	protected Coord location;
 	private int[] movementOffset;
 	private Timer offsetTimer;
+	protected double height, width; // in terms of blocks.
+	public boolean hasCollider;
+	private Collider c;
 	
+	public GameObject() {
+		this(Coord.newCoord(-1, -1));
+	}
 	
 	public GameObject(Coord c) {
 		location = c;
 		movementOffset = new int[] {0, 0};
+		height = 0;
+		width = 0;
+	}
+	
+	public void addCollider(Enums.Direction[] sidesBlocked) {
+		this.c = new CollisionTile(this, location, sidesBlocked);
+		hasCollider = true;
+	}
+	
+	public void removeCollider() {
+		hasCollider = false;
+	}
+	
+	public boolean hasCollider() {
+		return hasCollider;
 	}
 	
 	public Coord getLocation() {
@@ -38,11 +60,10 @@ public class GameObject implements Drawable{
 		this.location = location;
 	}
 	
-	public void move(Camera.Direction dir, int[] unitPixels, int speed) {
-		int[] direction_fac = Camera.direction_factor.get(dir);
+	public void move(Enums.Direction dir, int[] unitPixels, int speed) {
+		int[] direction_fac = Enums.direction_factor.get(dir);
 		movementOffset[0] += direction_fac[0] * unitPixels[0];
 		movementOffset[1] += direction_fac[1] * unitPixels[1];
-		System.out.println("" + movementOffset[0] + " " + movementOffset[1]);
 		location = location.add(Coord.newCoord(direction_fac[0], direction_fac[1]));
 		animateShift(dir, speed);
 	}
@@ -51,12 +72,11 @@ public class GameObject implements Drawable{
 		return movementOffset;
 	}
 	
-	public void animateShift(Direction d, int speed) {
+	public void animateShift(Enums.Direction d, int speed) {
 		if (offsetTimer == null) {
 			offsetTimer = new Timer(10, new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					System.out.println("" + movementOffset[0] + " " + movementOffset[1]);
 					// TODO Auto-generated method stub
 					if ((Math.abs(movementOffset[1]) <= speed && Math.abs(movementOffset[0]) <= speed)) {
 						
@@ -82,14 +102,28 @@ public class GameObject implements Drawable{
 	}
 	
 	public double getHeight() {
-		return 0;
+		return height;
 	}
 	
 	public double getWidth() {
-		return 0;
+		return width;
 	}
 
 	public Image getImage() {
 		return new BufferedImage(0,0, BufferedImage.TYPE_INT_RGB);
+	}
+
+	public boolean canMove(Collider tile, Enums.Direction dir, int dist) {
+		if (hasCollider) return c.canMove(tile, dir, dist);
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see engine.Collider#blockedFrom(engine.Enums.Direction)
+	 */
+	@Override
+	public boolean blockedFrom(Direction dir) {
+		if (hasCollider) return c.blockedFrom(dir);
+		return false;
 	}
 }
