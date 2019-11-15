@@ -35,12 +35,12 @@ public class TileMap {
 		if (tls.length < 1) {
 			throw new IllegalArgumentException();
 		}
-		height = tls.length;
-		width = tls[0].length;
+		width = tls.length;
+		height = tls[0].length;
 		
 		tiles = new HashMap<Coord, GameTile>();		
-		for (int x = 0; x < height; x++) {
-			for (int y = 0; y < width; y++) {
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
 				if (tls[x][y] == null) {
 					tiles.put(Coord.newCoord(x, y), new NullTile(Coord.newCoord(x, y)));
 				} else {
@@ -85,24 +85,6 @@ public class TileMap {
 //		}
 //		System.out.println();
 		return row;
-	}
-	
-	public GameTile[] getColumn(int startX, int startY, int length) {
-		GameTile[] column = new GameTile[length];
-		int currentTileNum = startX * height + startY;
-		boolean column_done = false;
-		for (int i = 0; i < column.length; i++) {
-			if (!column_done) {
-				column[i] = tiles.get(currentTileNum);
-				currentTileNum++;
-				if (currentTileNum >= height * width) {
-					column_done = true;
-				}
-			} else {
-				column[i] = null;
-			}
-		}
-		return column;
 	}
 	
 	public GameTile[] createEmptyRow(int rowNum, int len) {

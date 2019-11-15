@@ -23,13 +23,18 @@ import engine.ui.UIHandler;
  *
  */
 public class RunGame {
+	private static String map = "src/bridge_map.txt";
 	
+	private static MainController controller;
 	public static EngineCombiner engine;
+	
 	static {
-		engine = new EngineCombiner();
+		engine = new EngineCombiner(map);
+		controller = new MainController(engine);
 			Timer gameTimer = new Timer(1000 / 60, new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					controller.update();
 					engine.update();
 					engine.repaint();
 				}
@@ -46,9 +51,8 @@ public class RunGame {
 		JPanel top_panel = new JPanel();
 		top_panel.setLayout(new BorderLayout());
 		main_frame.setContentPane(top_panel);
-
 		
-		main_frame.addKeyListener(new MainController(engine));
+		main_frame.addKeyListener(controller);
 		top_panel.add(engine, BorderLayout.CENTER);
 
 		/* Pack main frame and make visible. */

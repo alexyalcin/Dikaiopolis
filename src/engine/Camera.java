@@ -126,9 +126,9 @@ public class Camera {
 				continue;
 			} else {
 				g.drawImage(item.getImage(), 
-						target.getMovementOffset()[0] - (item.getMovementOffset()[0]) 
+						(int) target.getMovementOffset()[0] - ((int) item.getMovementOffset()[0]) 
 						+ (item.getLocation().x() - target.getLocation().x() + x_radius) * tile_width,
-						target.getMovementOffset()[1] - (item.getMovementOffset()[1]) 
+						(int) target.getMovementOffset()[1] - ((int) item.getMovementOffset()[1]) 
 						+ (item.getLocation().y() - target.getLocation().y() + y_radius) * tile_height, 
 						(int) (tile_width * item.getWidth()), (int) (tile_height * item.getHeight()), null);
 			}
@@ -145,8 +145,8 @@ public class Camera {
 			for (int y = 0; y < current_spots[0].length; y++) {
 					List<Image> tile_images = current_spots[x][y].getImages();
 					for (Image i : tile_images) {
-						g.drawImage(i, target.getMovementOffset()[0] + (x - BUFFER) * tile_width,
-								target.getMovementOffset()[1] + (y - BUFFER) * tile_height, tile_width, tile_height, null);
+						g.drawImage(i, (int) target.getMovementOffset()[0] + (x - BUFFER) * tile_width,
+								(int) target.getMovementOffset()[1] + (y - BUFFER) * tile_height, tile_width, tile_height, null);
 				}
 			}
 		}

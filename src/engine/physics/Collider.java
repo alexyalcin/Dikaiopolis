@@ -27,8 +27,8 @@ public interface Collider {
 		return 1;
 	}
 
-	public default boolean collides(Collider item) {
-		return item.getLocation() == getLocation();
+	public default boolean collides(Collider other) {
+		return other.getLocation() == getLocation();
 	}
 	
 	public default boolean wouldCollide(Collider item, Enums.Direction dir, int dist) { 

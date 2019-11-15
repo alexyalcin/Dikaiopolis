@@ -26,7 +26,7 @@ import engine.physics.CollisionTile;
  */
 public class GameObject implements Drawable, Collider{
 	protected Coord location;
-	private int[] movementOffset;
+	private double[] movementOffset;
 	private Timer offsetTimer;
 	protected double height, width; // in terms of blocks.
 	public boolean hasCollider;
@@ -34,7 +34,7 @@ public class GameObject implements Drawable, Collider{
 	
 	public GameObject(Coord c) {
 		location = c;
-		movementOffset = new int[] {0, 0};
+		movementOffset = new double[] {0, 0};
 		height = 1;
 		width = 1;
 	}
@@ -60,24 +60,27 @@ public class GameObject implements Drawable, Collider{
 		this.location = location;
 	}
 	
-	public void move(Enums.Direction dir, int[] unitPixels, int speed) {
+	public boolean isMoving() {
+		return !(movementOffset[0] == 0 && movementOffset[1] == 0);
+
+	}
+	
+	public void move(Enums.Direction dir, int[] unitPixels, double d) {
 		int[] direction_fac = Enums.direction_factor.get(dir);
-		if (movementOffset[0] != 0 || movementOffset[1] != 0) {
-			return;
-		}
+		if (isMoving()) return;
 		movementOffset[0] += direction_fac[0] * unitPixels[0];
 		movementOffset[1] += direction_fac[1] * unitPixels[1];
 		location = location.add(Coord.newCoord(direction_fac[0], direction_fac[1]));
-		animateShift(dir, speed);
+		animateShift(dir, d);
 	}
 	
-	public int[] getMovementOffset() {
+	public double[] getMovementOffset() {
 		return movementOffset;
 	}
 	
-	public void animateShift(Enums.Direction d, int speed) {
+	public void animateShift(Enums.Direction d, double speed) {
 		if (offsetTimer == null) {
-			offsetTimer = new Timer(7, new ActionListener() {
+			offsetTimer = new Timer(15, new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub

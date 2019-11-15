@@ -34,7 +34,7 @@ public class UIHandler {
 	private Set<GameObject> objects;
 	private Set<UIElement> uiElements;
 	
-	public boolean isActive = false;
+	public boolean isActive = true;
 	
 	public UIHandler(int s_w, int s_h, Camera c, Set<GameObject> o){
 		objects = o;

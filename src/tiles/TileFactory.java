@@ -7,6 +7,7 @@ package tiles;
 
 import engine.gameobjects.GameObject;
 import engine.gameobjects.GameTile;
+import engine.gameobjects.NullTile;
 import engine.geo.Coord;
 import engine.physics.Occupies;
 
@@ -25,7 +26,7 @@ public class TileFactory {
 		} else if (id ==3) {
 			return new BridgeTile(c, o);
 		}
-		return null;
+		return new NullTile(c);
 	}
 
 }

@@ -59,6 +59,7 @@ public class InputHandler implements MouseListener {
 	}
 	
 	public void remove(CustomListener m) {
+		System.out.println(m);
 		toListen.remove(m);
 	}
 	

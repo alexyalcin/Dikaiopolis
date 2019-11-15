@@ -46,10 +46,7 @@ public class MappedTileBoard implements TileBoard{
 	private Coord upperRight;
 	private GameTile[][] current_spots; // buffered;
 	private TileMap tileMap;
-	private int offsetY, offsetX;
-	
-	private static Timer shiftTimer = null;
-	
+		
 	public MappedTileBoard() {
 		
 	}
@@ -63,8 +60,6 @@ public class MappedTileBoard implements TileBoard{
 		height = h;
 		upperRight = startLoc;
 		tileMap = tm;
-		offsetY = 0;
-		offsetX = 0;
 		current_spots = tileMap.getArea(upperRight.x() - BUFFER, upperRight.y() - BUFFER, width + BUFFER * 2, height + BUFFER * 2);
 	}
 

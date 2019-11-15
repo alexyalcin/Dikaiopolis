@@ -114,7 +114,6 @@ public class Structure extends GameObject {
 	@Override
 	public Collider getColliderAt(int x, int y) {
 		for (GameObject block: blockSet) {
-			System.out.println(block.getLocation());
 			if (block.getLocation().x() == x && block.getLocation().y() == y) {
 				return block.getColliderAt(x, y);
 			}
@@ -131,6 +130,14 @@ public class Structure extends GameObject {
 			if (!t.canMove(tile, dir, dist)) return false;
 		}
 		return true;
+	}
+	
+	@Override
+	public boolean collides(Collider other) {
+		for (GameObject block: blockSet) {
+			if (block.collides(other)) return true;
+		}
+		return false;
 	}
 	
 	public double getHeight() {

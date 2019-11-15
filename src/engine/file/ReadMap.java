@@ -36,7 +36,7 @@ public class ReadMap {
 		line1_scanner.useDelimiter(" ");
 		width = line1_scanner.nextInt();
 		height = line1_scanner.nextInt();
-		GameTile[][] tiles = new GameTile[height][width];
+		GameTile[][] tiles = new GameTile[width][height];
 		int total = 0;
 		for (int y = 0; y < height; y++) {
 			String next_line = sc.nextLine();
@@ -45,8 +45,8 @@ public class ReadMap {
 			for (int x = 0; x < width; x++)  {
 				total++;
 				int tile_type = row_scanner.nextInt();
-				GameTile t = TileFactory.createTile(Coord.newCoord(y, x), null, tile_type);
-				tiles[y][x] = t;
+				GameTile t = TileFactory.createTile(Coord.newCoord(x, y), null, tile_type);
+				tiles[x][y] = t;
 			}
 		}		boolean in_items = false;
 		while (sc.hasNext()) {
@@ -68,7 +68,6 @@ public class ReadMap {
 				tiles[x][y].addObject(Item.createItem(type, model));
 			}
 		}
-		
 		return tiles;
 	}
 	

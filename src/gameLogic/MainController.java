@@ -10,6 +10,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import characters.PlayerCharacter;
 import engine.Camera;
@@ -36,30 +38,50 @@ public class MainController implements KeyListener {
 	PhysicsHandler physics;
 	
 	int[] tileDims;
+	GameObject gate;
+	
+	private Enums.Direction lastKeyDown = null;
+	Enums.Direction toMove = null;
+	
+	private ArrayList<Enums.Direction> keysDown;
 
 	public MainController(EngineCombiner comb) {
 		engine = comb;
-		physics = engine.getPhysics();
 		this.camera = engine.getCamera();
-		tileDims = camera.getTileDims();
-		character = new PlayerCharacter(Coord.newCoord(9, 9));
-		engine.addObject(character);
-		GameObject gate = new Structure(Coord.newCoord(10, 12), "assets/structures/gate.xml");
-		engine.addObject(gate);
+		this.physics = engine.getPhysics();
 		tiles = camera.getTileBackground().getMap();
+		tileDims = camera.getTileDims();
+		
+		keysDown = new ArrayList<Enums.Direction>();
+				
+		character = new PlayerCharacter(Coord.newCoord(0, 0));
+		engine.addObject(character);
+		camera.setTarget(character);
+
+		gate = new Structure(Coord.newCoord(1, 4), "assets/structures/gate.xml");
+		engine.addObject(gate);
+		//engine.removeObject(gate);
 		
 		GameObject sword2 = new Sword(1, 100);
 		sword2.setLocation(Coord.newCoord(11, 8));
 		engine.addObject(sword2);
-		camera.setTarget(character);
-		camera.followTarget();
-		camera.setTarget(gate);
+		//engine.enableUI();
+		//camera.setTarget(gate);
+		//engine.enableUI();
 	}
 	/* (non-Javadoc)
 	 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
 	 */
 	@Override
 	public void keyTyped(KeyEvent e) {
+
+	}
+
+	/* (non-Javadoc)
+	 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
+	 */
+	@Override
+	public void keyPressed(KeyEvent e) {
 		char key = e.getKeyChar();
 		Enums.Direction d = null;
 		if (key == 'w') {
@@ -71,34 +93,59 @@ public class MainController implements KeyListener {
 		} else if (key == 'd') {
 			d = Enums.Direction.LEFT;
 		}
-		
 		if (d != null) {
-//			GameTile t1 = (tiles.getTile(character.getLocation().x() + Enums.direction_factor.get(d)[0],
-//					character.getLocation().y() + Enums.direction_factor.get(d)[1]));
-//			GameTile t = (tiles.getTile(character.getLocation().x(), character.getLocation().y()));
-//			if (!character.canMove(t1, d, 1) || !(character.canMove(t, d, 0))) {
-//				return;
-//			}
-			if (physics.canMove(character, d)) {
-				character.move(d, tileDims, 3);
+			if (keysDown.contains(d)) {
+				keysDown.remove(d);
 			}
+			keysDown.add(0, d);
+			lastKeyDown = d;
 		}
 	}
-
-	/* (non-Javadoc)
-	 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
-	 */
-	@Override
-	public void keyPressed(KeyEvent e) {
-		
-	}
+	
+	
 
 	/* (non-Javadoc)
 	 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
 	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
-		
+		char key = e.getKeyChar();
+		Enums.Direction d = null;
+		if (key == 'w') {
+			d = Enums.Direction.DOWN;
+		} else if (key == 's') {
+			d = Enums.Direction.UP;
+		} else if (key == 'a') {
+			d = Enums.Direction.RIGHT;
+		} else if (key == 'd') {
+			d = Enums.Direction.LEFT;
+		}
+		if (keysDown.contains(d)) {
+			keysDown.remove(d);
+		}
+		if (keysDown.size() == 0) {
+			lastKeyDown = null;
+		} else {
+			lastKeyDown = keysDown.get(0);
+		}
+	}
+	
+	public void move(Enums.Direction dir, int[] d, double s) {
+		System.out.println(physics.collides(character, gate));
+		character.move(dir, d, s);
+	}
+	
+	/**
+	 * 
+	 */
+	public void update() {
+		toMove = lastKeyDown;
+		if (toMove == null) return;
+		if (!character.isMoving()) {
+			if (physics.canMove(character, toMove)) {
+				if (toMove != null) move(toMove, tileDims, 4.5 * EngineCombiner.DEFAULT_SCREEN_WIDTH / 750);
+			}
+		}
 	}
 	
 }
