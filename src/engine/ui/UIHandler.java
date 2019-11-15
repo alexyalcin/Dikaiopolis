@@ -33,7 +33,6 @@ public class UIHandler {
 	private static Color highlight_color = Color.YELLOW;
 	private Set<GameObject> objects;
 	private Set<UIElement> uiElements;
-	private GameObject mouseOverHighlight;
 	
 	public boolean isActive = false;
 	
@@ -42,7 +41,6 @@ public class UIHandler {
 		camera = c;
 		screenw = s_w;
 		screenh = s_h;
-		mouseOverHighlight = new GameObject();
 		uiElements = new HashSet<UIElement>();
 		uiElements.add(new StartButton());
 		uiElements.add(new UIButton("Hello", 300, 100, new Point(300, 300)));

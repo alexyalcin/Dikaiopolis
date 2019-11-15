@@ -7,9 +7,11 @@ package characters;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 import engine.file.XMLReader;
 import engine.gameobjects.GameCharacter;
+import engine.geo.Coord;
 import engine.geo.MappedTileBoard;
 
 /**
@@ -23,15 +25,16 @@ public class PlayerCharacter extends GameCharacter {
 		return true;
 	}
 	
-	public PlayerCharacter() { // for testing
-		this("savegame.txt");
+	public PlayerCharacter(Coord c) { // for testing
+		this("savegame.txt", c);
 	}
 	
-	public PlayerCharacter(String savefile) {
+	public PlayerCharacter(String savefile, Coord c) {
+		super(c);
 		height = 1;
 		width = 1;
 		
-		XMLReader reader = new XMLReader(savefile);
+		XMLReader reader = new XMLReader(new File(savefile));
 		name = reader.getTag("name");
 		level = Integer.parseInt(reader.getTag("level"));
 		

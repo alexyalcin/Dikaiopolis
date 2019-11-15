@@ -32,15 +32,11 @@ public class GameObject implements Drawable, Collider{
 	public boolean hasCollider;
 	private Collider c;
 	
-	public GameObject() {
-		this(Coord.newCoord(-1, -1));
-	}
-	
 	public GameObject(Coord c) {
 		location = c;
 		movementOffset = new int[] {0, 0};
-		height = 0;
-		width = 0;
+		height = 1;
+		width = 1;
 	}
 	
 	public void addCollider(Enums.Direction[] sidesBlocked) {

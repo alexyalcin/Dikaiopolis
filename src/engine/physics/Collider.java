@@ -1,5 +1,5 @@
 /**
- * Collider.java 1.0 Nov 13, 2019
+w * Collider.java 1.0 Nov 13, 2019
  *
  * Copyright (c) 2019 Alexander Yalcin. All rights reserved.
  */
@@ -17,7 +17,15 @@ import engine.geo.Coord;
  *
  */
 public interface Collider {
+
 	public Coord getLocation();
+	
+	public default double getHeight() {
+		return 1;
+	}
+	public default double getWidth() {
+		return 1;
+	}
 
 	public default boolean collides(Collider item) {
 		return item.getLocation() == getLocation();
@@ -26,6 +34,10 @@ public interface Collider {
 	public default boolean wouldCollide(Collider item, Enums.Direction dir, int dist) { 
 		return (item.getLocation().add(Coord.newCoord(dist * Enums.direction_factor.get(dir)[0], 
 				dist * Enums.direction_factor.get(dir)[1]))) == getLocation();
+	}
+	
+	public default Collider getColliderAt(int x, int y) {
+		return this;
 	}
 	
 	public boolean canMove(Collider tile, Enums.Direction dir, int dist);

@@ -50,8 +50,22 @@ public class CollisionTile implements Collider {
 	public boolean blockedFrom(Direction dir) {
 		return (blocked.contains(Enums.getOpposite.get(dir)));
 	}
+	
 	/* (non-Javadoc)
-	 * @see engine.Collider#blockedFrom(engine.Enums.Direction)
+	 * @see engine.physics.Collider#getHeight()
 	 */
+	@Override
+	public double getHeight() {
+		// TODO Auto-generated method stub
+		return 1;
+	}
+	/* (non-Javadoc)
+	 * @see engine.physics.Collider#getWidth()
+	 */
+	@Override
+	public double getWidth() {
+		// TODO Auto-generated method stub
+		return 1;
+	}
 
 }

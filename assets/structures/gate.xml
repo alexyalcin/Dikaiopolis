@@ -1,0 +1,4 @@
+<name>gate</name>
+<block><loc>1,0</loc><collision>1,1,0,0</collision><img>assets/structures/gate_middle.png</img></block>
+<block><loc>0,0</loc><collision>1,1,1,1</collision><img>assets/structures/gate_side.png</img></block>
+<block><loc>2,0</loc><collision>1,1,1,1</collision><img>assets/structures/gate_side.png</img></block>

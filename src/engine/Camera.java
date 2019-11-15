@@ -121,8 +121,8 @@ public class Camera {
 		final int y_radius = (height - 1) / 2;
 		for (GameObject item : objects) {
 			Coord c = item.getLocation();
-			if (c.x() < (target.getLocation().x() - x_radius) || c.x() > (target.getLocation().x() + x_radius)
-					|| c.y() < (target.getLocation().y() - y_radius) || c.y() > (target.getLocation().y() + y_radius)) {
+			if (c.x() < (target.getLocation().x() - x_radius) - 1 || c.x() > (target.getLocation().x() + x_radius) + 1
+					|| c.y() < (target.getLocation().y() - y_radius) - 1|| c.y() > (target.getLocation().y() + y_radius) + 1) {
 				continue;
 			} else {
 				g.drawImage(item.getImage(), 

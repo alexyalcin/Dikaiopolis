@@ -27,7 +27,7 @@ import tiles.TileHighlight;
  */
 public abstract class GameTile extends GameObject implements Tile {
 	Set<GameObject> onTile;
-	Image background;
+	protected Image background;
 	static GameObject highlight;
 	
 	static {

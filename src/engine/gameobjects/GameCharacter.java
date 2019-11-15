@@ -9,6 +9,7 @@ import java.awt.Image;
 
 import engine.Enums;
 import engine.Enums.Direction;
+import engine.geo.Coord;
 
 /**
  * @author Alex
@@ -23,7 +24,8 @@ public abstract class GameCharacter extends GameObject{
 	protected int level;
 	protected int health;
 	
-	public GameCharacter() {
+	public GameCharacter(Coord c) {
+		super(c);
 		current_phase = 0;
 		phase_dir = 1;
 		addCollider(new Enums.Direction[] {Enums.Direction.UP, Enums.Direction.DOWN, Enums.Direction.RIGHT, Enums.Direction.LEFT});

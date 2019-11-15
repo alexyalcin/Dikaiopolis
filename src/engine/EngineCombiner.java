@@ -14,8 +14,10 @@ import java.util.TreeSet;
 import javax.swing.JPanel;
 
 import engine.gameobjects.GameObject;
+import engine.gameobjects.GameTile;
 import engine.geo.Coord;
 import engine.geo.TileMap;
+import engine.physics.PhysicsHandler;
 import engine.ui.UIElement;
 import engine.ui.UIHandler;
 
@@ -39,6 +41,7 @@ public class EngineCombiner extends JPanel {
 	UIHandler ui;
 	TileMap tiles;
 	InputHandler input;
+	PhysicsHandler physics;
 	
 	private Set<GameObject> objects;
 	
@@ -47,6 +50,7 @@ public class EngineCombiner extends JPanel {
 		screen_height = DEFAULT_SCREEN_HEIGHT;
 		height = DEFAULT_HEIGHT;
 		width = DEFAULT_WIDTH;
+		
 		input = new InputHandler(this);
 		this.addMouseListener(input);
 		objects = new TreeSet<GameObject>();
@@ -56,6 +60,16 @@ public class EngineCombiner extends JPanel {
 		ui = new UIHandler(EngineCombiner.DEFAULT_SCREEN_WIDTH, EngineCombiner.DEFAULT_SCREEN_HEIGHT, camera, objects);
 		for (UIElement u : ui.getUIElements()) {
 			input.add(u);
+		}
+		physics = new PhysicsHandler();
+		for (GameObject o : objects) {
+			physics.add(o);
+		}
+		for (int x1 = -5; x1 < tiles.getWidth() + 5; x1++) {
+			for (int y1 = -5; y1 < tiles.getHeight() + 5; y1++) {
+				GameTile c = tiles.getTile(x1, y1);
+				physics.add(tiles.getTile(c.getLocation().x(), c.getLocation().y()));
+			}
 		}
 		setPreferredSize(new Dimension(screen_width, screen_height));
 	}
@@ -67,14 +81,18 @@ public class EngineCombiner extends JPanel {
 	public UIHandler getui() {
 		return ui;
 	}
+	public PhysicsHandler getPhysics() {
+		return physics;
+	}
 	
 	public void addObject(GameObject o) {
 		objects.add(o);
+		physics.add(o);
 	}
 	
 	public void addObjects(Iterable<GameObject> o) {
 		for (GameObject object : o) {
-			objects.add(object);
+			addObject(object);
 		}
 	}
 	

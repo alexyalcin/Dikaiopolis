@@ -17,9 +17,11 @@ import engine.EngineCombiner;
 import engine.Enums;
 import engine.gameobjects.GameObject;
 import engine.gameobjects.GameTile;
+import engine.gameobjects.Structure;
 import engine.geo.Coord;
 import engine.geo.MappedTileBoard;
 import engine.geo.TileMap;
+import engine.physics.PhysicsHandler;
 import items.Sword;
 
 /**
@@ -30,24 +32,28 @@ public class MainController implements KeyListener {
 	Camera camera;
 	TileMap tiles;
 	GameObject character;
-	EngineCombiner combiner;
+	EngineCombiner engine;
+	PhysicsHandler physics;
 	
 	int[] tileDims;
 
 	public MainController(EngineCombiner comb) {
-		combiner = comb;
-		this.camera = combiner.getCamera();
+		engine = comb;
+		physics = engine.getPhysics();
+		this.camera = engine.getCamera();
 		tileDims = camera.getTileDims();
-		character = new PlayerCharacter();
-		character.setLocation(Coord.newCoord(5, 5));
-		combiner.addObject(character);
+		character = new PlayerCharacter(Coord.newCoord(9, 9));
+		engine.addObject(character);
+		GameObject gate = new Structure(Coord.newCoord(10, 12), "assets/structures/gate.xml");
+		engine.addObject(gate);
 		tiles = camera.getTileBackground().getMap();
 		
 		GameObject sword2 = new Sword(1, 100);
 		sword2.setLocation(Coord.newCoord(11, 8));
-		combiner.addObject(sword2);
+		engine.addObject(sword2);
 		camera.setTarget(character);
 		camera.followTarget();
+		camera.setTarget(gate);
 	}
 	/* (non-Javadoc)
 	 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
@@ -67,13 +73,15 @@ public class MainController implements KeyListener {
 		}
 		
 		if (d != null) {
-			GameTile t1 = (tiles.getTile(character.getLocation().x() + Enums.direction_factor.get(d)[0],
-					character.getLocation().y() + Enums.direction_factor.get(d)[1]));
-			GameTile t = (tiles.getTile(character.getLocation().x(), character.getLocation().y()));
-			if (!character.canMove(t1, d, 1) || !(character.canMove(t, d, 0))) {
-				return;
+//			GameTile t1 = (tiles.getTile(character.getLocation().x() + Enums.direction_factor.get(d)[0],
+//					character.getLocation().y() + Enums.direction_factor.get(d)[1]));
+//			GameTile t = (tiles.getTile(character.getLocation().x(), character.getLocation().y()));
+//			if (!character.canMove(t1, d, 1) || !(character.canMove(t, d, 0))) {
+//				return;
+//			}
+			if (physics.canMove(character, d)) {
+				character.move(d, tileDims, 3);
 			}
-			character.move(d, tileDims, 3);
 		}
 	}
 
