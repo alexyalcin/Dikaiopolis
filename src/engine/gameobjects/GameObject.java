@@ -68,33 +68,38 @@ public class GameObject implements Drawable, Collider{
 	public void move(Enums.Direction dir, int[] unitPixels, double d) {
 		int[] direction_fac = Enums.direction_factor.get(dir);
 		if (isMoving()) return;
-		movementOffset[0] += direction_fac[0] * unitPixels[0];
-		movementOffset[1] += direction_fac[1] * unitPixels[1];
-		location = location.add(Coord.newCoord(direction_fac[0], direction_fac[1]));
-		animateShift(dir, d);
+		movementOffset[0] = direction_fac[0];
+		movementOffset[1] = direction_fac[1];
+		//location = location.add(Coord.newCoord(direction_fac[0], direction_fac[1]));
+		animateShift(dir, unitPixels, d);
 	}
 	
 	public double[] getMovementOffset() {
 		return movementOffset;
 	}
 	
-	public void animateShift(Enums.Direction d, double speed) {
+	public void animateShift(Enums.Direction d,int[] unitPixels ,double speed) {
 		if (offsetTimer == null) {
 			offsetTimer = new Timer(15, new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					if ((Math.abs(movementOffset[1]) <= speed && Math.abs(movementOffset[0]) <= speed)) {
-						
+					int[] direction_fac = Enums.direction_factor.get(d);
+					if (( (Math.abs(movementOffset[1]) >= (unitPixels[0] - speed) || movementOffset[1] == 0) && 
+							(Math.abs(movementOffset[0]) >= (unitPixels[0] - speed) || movementOffset[0] == 0) )) {
+						movementOffset[0] = 0;
+						movementOffset[1] = 0;
+						location = location.add(Coord.newCoord(direction_fac[0], direction_fac[1]));
 						offsetTimer.stop();
+						offsetTimer = null;
+						return;
 					}
-					if (Math.abs(movementOffset[0]) > speed) {
-						movementOffset[0] -= speed * (movementOffset[0] / Math.abs(movementOffset[0]));
+					if (Math.abs(movementOffset[0]) < (unitPixels[0] - speed)) {
+						movementOffset[0] -= direction_fac[0] * speed;
 					} else {
 						movementOffset[0] = 0;
 					}
-					if (Math.abs(movementOffset[1]) > speed) {
-						movementOffset[1] -= speed * (movementOffset[1] / Math.abs(movementOffset[1]));
+					if (Math.abs(movementOffset[1]) < (unitPixels[1] - speed)) {
+						movementOffset[1] -= direction_fac[1] * speed;
 					} else {
 						movementOffset[1] = 0;
 					}

@@ -17,6 +17,7 @@ import characters.PlayerCharacter;
 import engine.Camera;
 import engine.EngineCombiner;
 import engine.Enums;
+import engine.GameEventHandler;
 import engine.gameobjects.GameObject;
 import engine.gameobjects.GameTile;
 import engine.gameobjects.Structure;
@@ -31,42 +32,42 @@ import items.Sword;
  *
  */
 public class MainController implements KeyListener {
-	Camera camera;
-	TileMap tiles;
-	GameObject character;
 	EngineCombiner engine;
-	PhysicsHandler physics;
-	
-	int[] tileDims;
+
 	GameObject gate;
-	
+	GameObject character;
+
 	private Enums.Direction lastKeyDown = null;
 	Enums.Direction toMove = null;
 	
 	private ArrayList<Enums.Direction> keysDown;
 
 	public MainController(EngineCombiner comb) {
-		engine = comb;
-		this.camera = engine.getCamera();
-		this.physics = engine.getPhysics();
-		tiles = camera.getTileBackground().getMap();
-		tileDims = camera.getTileDims();
-		
+		engine = comb;		
 		keysDown = new ArrayList<Enums.Direction>();
 				
 		character = new PlayerCharacter(Coord.newCoord(0, 0));
 		engine.addObject(character);
-		camera.setTarget(character);
-
+		engine.getCamera().setTarget(character);
 		gate = new Structure(Coord.newCoord(1, 4), "assets/structures/gate.xml");
+
+		engine.getEvents().add(new CollisionEvent(engine.getPhysics(), gate, character) {
+			@Override
+			public void performAction() {
+				engine.initialize_map("src/bridge_map.txt");
+				engine.addObject(character);
+				engine.getCamera().setTarget(character);
+			}
+		});
+
 		engine.addObject(gate);
 		//engine.removeObject(gate);
 		
 		GameObject sword2 = new Sword(1, 100);
 		sword2.setLocation(Coord.newCoord(11, 8));
 		engine.addObject(sword2);
-		//engine.enableUI();
-		//camera.setTarget(gate);
+		engine.enableUI();
+		engine.getCamera().setTarget(gate);
 		//engine.enableUI();
 	}
 	/* (non-Javadoc)
@@ -131,7 +132,7 @@ public class MainController implements KeyListener {
 	}
 	
 	public void move(Enums.Direction dir, int[] d, double s) {
-		System.out.println(physics.collides(character, gate));
+		System.out.println(engine.getPhysics().collides(character, gate));
 		character.move(dir, d, s);
 	}
 	
@@ -142,8 +143,8 @@ public class MainController implements KeyListener {
 		toMove = lastKeyDown;
 		if (toMove == null) return;
 		if (!character.isMoving()) {
-			if (physics.canMove(character, toMove)) {
-				if (toMove != null) move(toMove, tileDims, 4.5 * EngineCombiner.DEFAULT_SCREEN_WIDTH / 750);
+			if (engine.getPhysics().canMove(character, toMove)) {
+				if (toMove != null) move(toMove, engine.getCamera().getTileDims(), 4.5 * (9.0 / EngineCombiner.DEFAULT_HEIGHT) * EngineCombiner.DEFAULT_SCREEN_WIDTH / 750);
 			}
 		}
 	}

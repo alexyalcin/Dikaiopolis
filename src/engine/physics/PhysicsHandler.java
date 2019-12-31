@@ -61,7 +61,8 @@ public class PhysicsHandler {
 					colliders.get(loc).remove(c);
 				}
 			}
-		}	}
+		}	
+	}
 	
 	public void removeAll(Collection<Collider> m) {
 		for (Collider c : m) {

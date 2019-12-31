@@ -29,10 +29,10 @@ import engine.ui.UIHandler;
  */
 public class EngineCombiner extends JPanel {
 	
-	public static final int DEFAULT_SCREEN_WIDTH = 1024;
-	public static final int DEFAULT_SCREEN_HEIGHT = 576;
-	private static final int DEFAULT_HEIGHT = 9;
-	private static final int DEFAULT_WIDTH = 16;
+	public static final int DEFAULT_SCREEN_WIDTH = 900;
+	public static final int DEFAULT_SCREEN_HEIGHT = 900;
+	public static final int DEFAULT_HEIGHT = 30;
+	public static final int DEFAULT_WIDTH = 30;
 	
 	int screen_width, screen_height;
 	int height, width;
@@ -42,8 +42,9 @@ public class EngineCombiner extends JPanel {
 	Camera camera;
 	UIHandler ui;
 	TileMap tiles;
-	InputHandler input;
+	MouseInputHandler input;
 	PhysicsHandler physics;
+	GameEventHandler events;
 	
 	private Set<GameObject> objects;
 	
@@ -52,7 +53,7 @@ public class EngineCombiner extends JPanel {
 		screen_height = DEFAULT_SCREEN_HEIGHT;
 		height = DEFAULT_HEIGHT;
 		width = DEFAULT_WIDTH;
-		input = new InputHandler(this);
+		input = new MouseInputHandler(this);
 		ui = new UIHandler(EngineCombiner.DEFAULT_SCREEN_WIDTH, EngineCombiner.DEFAULT_SCREEN_HEIGHT, camera, objects);
 		disableUI();
 		for (UIElement u : ui.getUIElements()) {
@@ -69,6 +70,7 @@ public class EngineCombiner extends JPanel {
 		camera = new Camera(tiles, DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		camera.setObjectsReference(objects);
 		physics = new PhysicsHandler();
+		events = new GameEventHandler();
 		for (GameObject o : objects) {
 			physics.add(o);
 		}
@@ -104,6 +106,10 @@ public class EngineCombiner extends JPanel {
 		return physics;
 	}
 	
+	public GameEventHandler getEvents() {
+		return events;
+	}
+	
 	public void addObject(GameObject o) {
 		objects.add(o);
 		physics.add(o);
@@ -121,6 +127,7 @@ public class EngineCombiner extends JPanel {
 	}
 	
 	public void update() {
+		events.update();
 		input.updateMouseLocation();
 		input.update();
 	}

@@ -23,7 +23,7 @@ import engine.ui.UIHandler;
  *
  */
 public class RunGame {
-	private static String map = "src/bridge_map.txt";
+	private static String map = "src/example_map.txt";
 	
 	private static MainController controller;
 	public static EngineCombiner engine;

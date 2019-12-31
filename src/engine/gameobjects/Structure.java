@@ -121,7 +121,6 @@ public class Structure extends GameObject {
 		return null;
 	}
 	
-	
 	@Override
 	public boolean canMove(Collider tile, Enums.Direction dir, int dist) {
 		System.out.println("hello");
